@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMAPI.Client.Blazor", "OMAPI.Client.Blazor\OMAPI.Client.Blazor.csproj", "{AAC9F3FD-072B-4ADC-A2D9-728E349623AC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AAC9F3FD-072B-4ADC-A2D9-728E349623AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAC9F3FD-072B-4ADC-A2D9-728E349623AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAC9F3FD-072B-4ADC-A2D9-728E349623AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAC9F3FD-072B-4ADC-A2D9-728E349623AC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FF439919-F2E4-49F4-85BD-5E910072A9FC}
+	EndGlobalSection
+EndGlobal
