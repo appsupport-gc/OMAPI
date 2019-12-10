@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2019.3.1023/styles/kendo.common.min.css" />
+    <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2019.3.1023/styles/kendo.bootstrap.min.css" />
+
+</head>
+<body>
+
+    <input id="hdnAdmFieldID" type="text" value="RMTC" /> (type="hidden")<br />
+    <input id="adm1" style="width:300px;" /><br />
+    <input id="adm2" style="width:300px;" /><br />
+    <input id="adm3" style="width:300px;" />
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="http://kendo.cdn.telerik.com/2019.3.1023/js/kendo.core.min.js"></script>
+    <script src="http://kendo.cdn.telerik.com/2019.3.1023/js/kendo.ui.core.min.js"></script>
+    <script src="http://kendo.cdn.telerik.com/2019.3.1023/js/kendo.dropdownlist.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var adm1 = $("#adm1").kendoDropDownList({
+                optionLabel: "Select Division...",
+                dataTextField: "Name",
+                dataValueField: "AdmFieldID",
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: "http://api.adventistdirectory.org/api/OMAdmfield?$filter=Active%20eq%20true%20and%20OrgLevel%20le%201&$select=AdmFieldID,Name&$orderby=YBOrgCode"
+                    }
+                },
+                change: function (e) {
+                    $("#hdnAdmFieldID").val(this.value());
+                },
+            });
+
+            var adm2 = $("#adm2").kendoDropDownList({
+                autoBind: false,
+                optionLabel: "Select Union...",
+                cascadeFrom: "adm1",
+                cascadeFromField: "YBAdm1",
+                dataTextField: "Name",
+                dataValueField: "AdmFieldID",
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: "http://api.adventistdirectory.org/api/OMAdmfield?$filter=Active%20eq%20true%20and%20OrgLevel%20eq%202&$select=AdmFieldID,Name,YBAdm1&$orderby=YBOrgCode"
+                    }
+                },
+                change: function (e) {
+                    $("#hdnAdmFieldID").val(this.value());
+                }
+            });
+
+            var adm3 = $("#adm3").kendoDropDownList({
+                autoBind: false,
+                optionLabel: "Select Conference/Mission...",
+                cascadeFrom: "adm2",
+                cascadeFromField: "YBAdm2",
+                dataTextField: "Name",
+                dataValueField: "AdmFieldID",
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: "http://api.adventistdirectory.org/api/OMAdmfield?$filter=Active%20eq%20true%20and%20OrgLevel%20eq%203&$select=AdmFieldID,Name,YBAdm2&$orderby=YBOrgCode"
+                    }
+                },
+                change: function (e) {
+                    $("#hdnAdmFieldID").val(this.value());
+                }
+            });
+
+            SetAdmField($("#hdnAdmFieldID").val());
+        });
+
+        function SetAdmField(AdmFieldID) {
+          if (AdmFieldID != null) {
+            $.getJSON("http://api.adventistdirectory.org/api/OMAdmfield?$filter=Active%20eq%20true%20and%20AdmFieldID%20eq%20'" + AdmFieldID + "'", function (data) {
+                af = data[0];
+                console.log("SetAdmField(): " + AdmFieldID);
+                var ddlAdm1 = $("#adm1").data("kendoDropDownList");
+                console.log("YBAdm1: " + af.YBAdm1);
+                ddlAdm1.value(af.YBAdm1);
+                var ddlAdm2 = $("#adm2").data("kendoDropDownList")
+                ddlAdm2.value(af.YBAdm2);
+                console.log("YBAdm2: " + af.YBAdm2);
+                var ddlAdm3 = $("#adm3").data("kendoDropDownList");
+                ddlAdm3.value(af.YBAdm3);
+                console.log("YBAdm3: " + af.YBAdm3);
+                $("#hdnAdmFieldID").val(AdmFieldID)
+            });
+          }
+            
+        }
+    </script>
+
+</body>
+</html>
